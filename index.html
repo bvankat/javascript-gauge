@@ -314,7 +314,7 @@ background: #790909;
                 <button onclick="setSpeed(0)">Reset (0)</button>
                 <button onclick="setSpeed(50)">Half (50)</button>
                 <button onclick="setSpeed(100)">Max (100)</button>
-                <button onclick="animateSpeed()">Animate</button>
+                <button onclick="randomSpeed()">Random</button>
             </div>
         </div>
 
@@ -478,6 +478,12 @@ background: #790909;
             baseValue = value;
             speedSlider.value = value;
             updateNeedle(value);
+        }
+
+        function randomSpeed() {
+            // Pick a random value between 1 and 100
+            const randomValue = Math.floor(Math.random() * 100) + 1;
+            setSpeed(randomValue);
         }
 
         function animateSpeed() {
