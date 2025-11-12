@@ -80,3 +80,50 @@ Call `updateNeedle(72)` to point the needle to value 72. For debugging you can t
 - Needle rotates incorrectly (pivot off-center): check the needle SVG artwork; the pivot should be located at the logical center where it will rotate.
 - Needle moves but the slider doesn't update: the demo intentionally keeps the slider at the base value and uses `skipSlider=true` for bounce updates so the slider only moves when the user changes the value.
 - Animation feels jumpy: increase `bounceSmoothMs` or lower `bounceIntervalMs` until the movement looks natural, or use a smoother timing function.
+
+## Embedding example (integrate on another page)
+
+This example shows the minimal markup and JS you need to reuse the gauge on another page. The demo keeps all logic inline; for production you may prefer to extract the JS into a separate file and expose a small API (for example, `createGauge(containerEl, options)`).
+
+Minimal HTML (copy the objects and a value display into your page):
+
+```html
+<!-- gauge container -->
+<div class="gauge-wrapper">
+	<object class="gauge-background" id="gaugeDial" data="svg/light/gauge-dial.svg" type="image/svg+xml"></object>
+	<div class="gauge-needle-container">
+		<object id="gaugeNeedle" data="svg/light/needle.svg" type="image/svg+xml"></object>
+	</div>
+	<div id="gaugeValue" class="value-display light">50</div>
+</div>
+```
+
+Tiny integration script (example only — copy/update the functions you need from the demo):
+
+```html
+<script>
+	// angle mapping must match your SVG artwork
+	const cfg = { minAngle: -215.2, maxAngle: 34.2, minValue: 0, maxValue: 100 };
+
+	// helper to set the needle (similar to demo)
+	function updateNeedleSimple(value) {
+		value = Math.max(cfg.minValue, Math.min(cfg.maxValue, value));
+		const range = cfg.maxAngle - cfg.minAngle;
+		const fraction = (value - cfg.minValue) / (cfg.maxValue - cfg.minValue);
+		const angle = cfg.minAngle + fraction * range;
+		const container = document.querySelector('.gauge-needle-container');
+		const valueEl = document.getElementById('gaugeValue');
+		if (container) container.style.transform = `translate(-50%, -50%) rotate(${angle}deg)`;
+		if (valueEl) valueEl.textContent = value;
+	}
+
+	// Example: update to 72
+	updateNeedleSimple(72);
+</script>
+```
+
+Notes:
+
+- Copy any CSS that positions the `.gauge-wrapper`, keeps the needle container centered, and sets `transform-origin: center center` for the needle container.
+- If you want the demo's bounce behavior, also copy `startBounce()` and the bounce configuration variables and wire them to your page.
+- If you extract the JS into a module, return an API that includes `updateNeedle()` and `setSpeed()` for consumers to call.
