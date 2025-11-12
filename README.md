@@ -1,8 +1,8 @@
 # Javascript Speedometer Gauge
 
-A small, self-contained speedometer-style gauge built with custom SVG assets and plain Javascript. Created for [nebrasketball.info] as a replacement for the standard Google Charts gauge. Inspired by the jittery chaos of the New York Times election night projection needle.
+A small, self-contained speedometer-style gauge built with custom SVG assets and plain Javascript. Created for [nebrasketball.info](https://nebrasketball.info) as a replacement for the standard Google Charts gauge. Inspired by the jittery chaos of the New York Times election night projection needle.
 
-Demo allows you to control speed and amplitude of the needle's bounce. Light and dark dial options available.
+[This demo](https://bvankat.github.io/javascript-gauge) allows you to control speed and amplitude of the needle's bounce. Light and dark dial options available.
 
 
 ## Files
